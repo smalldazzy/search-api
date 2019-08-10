@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './Search.module.scss';
 import { ISearchProps } from './ISearchProps';
 import { DetailsList, DetailsListLayoutMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
-import { taxonomy, ITermStore, ITermSet } from "@pnp/sp-taxonomy";
+import { taxonomy, ITermStore, ITermSet, Session, ITaxonomySession } from "@pnp/sp-taxonomy";
 import RefButtons from './RefButtons';
 
 
@@ -47,7 +47,8 @@ export default class Search extends React.Component<ISearchProps, {}> {
     this.getTax();
   }
   private async getTax() {
-    const store: ITermStore = taxonomy.termStores.getByName("Taxonomy_MbJwt7/iPAiwadr9aBselw==");
+    const mytaxonomy : ITaxonomySession= new Session("https://cupcuper.sharepoint.com/sites/dev1");
+    const store: ITermStore = mytaxonomy.termStores.getByName("Taxonomy_MbJwt7/iPAiwadr9aBselw==");
     const set: ITermSet = store.getTermSetById("b40ba88e-c159-47ad-bef0-43ea539cf24c");
     set.terms.get().then((response) => {
       let colors = [];
